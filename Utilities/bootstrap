@@ -645,6 +645,11 @@ def build_swiftpm_with_swiftpm(args, integrated_swift_driver):
     symlink_force(args.swiftc_path, os.path.join(args.target_dir, args.conf, "swift"))
     symlink_force(args.swiftc_path, os.path.join(args.target_dir, args.conf, "swift-autolink-extract"))
 
+    potential_driver_path = os.path.join(os.path.dirname(args.swiftc_path), "swift-driver")
+    note("Symlinking %s" % potential_driver_path)
+    note("Available executables: %s" % os.listdir(os.path.dirname(args.swiftc_path)))
+    symlink_force(potential_driver_path, os.path.join(args.target_dir, args.conf, "swift-driver"))
+
     lib_dir = os.path.join(args.target_dir, "lib", "swift")
 
     # Remove old cruft.
