@@ -509,7 +509,7 @@ public extension PluginTarget {
                 // For a binary target we create a `vendedTool`.
                 if let target = target as? BinaryTarget {
                     // TODO: Memoize this result for the host triple
-                    guard let execInfos = try? target.parseArtifactArchives(for: hostTriple, fileSystem: fileSystem) else {
+                    guard let execInfos = try? target.parseArtifactArchives(for: hostTriple, fileSystem: fileSystem, onlyIfSupportedTriple: true) else {
                         // TODO: Deal better with errors in parsing the artifacts
                         return []
                     }
@@ -617,6 +617,7 @@ public enum PluginEvaluationError: Swift.Error {
     case couldNotSerializePluginInput(underlyingError: Error)
     case runningPluginFailed(underlyingError: Error)
     case decodingPluginOutputFailed(json: Data, underlyingError: Error)
+    case noSupportedTripleForTarget(name: String)
 }
 
 public protocol PluginInvocationDelegate {
