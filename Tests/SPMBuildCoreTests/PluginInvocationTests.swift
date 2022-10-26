@@ -92,7 +92,6 @@ class PluginInvocationTests: XCTestCase {
 
             var hostTriple: Triple {
                 get throws {
-//                    return try Triple("x86")
                     return try UserToolchain.default.triple
                 }
             }
