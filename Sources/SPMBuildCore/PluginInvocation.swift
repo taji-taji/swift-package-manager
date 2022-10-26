@@ -355,7 +355,7 @@ extension PackageGraph {
             for pluginTarget in pluginTargets {
                 // Determine the tools to which this plugin has access, and create a name-to-path mapping from tool
                 // names to the corresponding paths. Built tools are assumed to be in the build tools directory.
-                let accessibleTools = pluginTarget.accessibleTools(fileSystem: fileSystem, environment: buildEnvironment, for: try pluginScriptRunner.hostTriple)
+                let accessibleTools = pluginTarget.accessibleTools(fileSystem: fileSystem, environment: buildEnvironment, for: try pluginScriptRunner.hostTriple, observabilityScope: observabilityScope)
                 let toolNamesToPaths = accessibleTools.reduce(into: [String: AbsolutePath](), { dict, tool in
                     switch tool {
                     case .builtTool(let name, let path):
@@ -502,14 +502,14 @@ public extension PluginTarget {
     }
 
     /// The set of tools that are accessible to this plugin.
-    func accessibleTools(fileSystem: FileSystem, environment: BuildEnvironment, for hostTriple: Triple) -> Set<PluginAccessibleTool> {
+    func accessibleTools(fileSystem: FileSystem, environment: BuildEnvironment, for hostTriple: Triple, observabilityScope: ObservabilityScope) -> Set<PluginAccessibleTool> {
         return Set(self.dependencies(satisfying: environment).flatMap { dependency -> [PluginAccessibleTool] in
             switch dependency {
             case .target(let target, _):
                 // For a binary target we create a `vendedTool`.
                 if let target = target as? BinaryTarget {
                     // TODO: Memoize this result for the host triple
-                    guard let execInfos = try? target.parseArtifactArchives(for: hostTriple, fileSystem: fileSystem, onlyIfSupportedTriple: true) else {
+                    guard let execInfos = try? target.parseArtifactArchives(for: hostTriple, fileSystem: fileSystem, observabilityScope: observabilityScope) else {
                         // TODO: Deal better with errors in parsing the artifacts
                         return []
                     }

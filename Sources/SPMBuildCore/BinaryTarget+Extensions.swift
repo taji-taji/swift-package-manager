@@ -58,7 +58,7 @@ extension BinaryTarget {
         return [LibraryInfo(libraryPath: libraryFile, headersPath: headersDir)]
     }
 
-    public func parseArtifactArchives(for triple: Triple, fileSystem: FileSystem, onlyIfSupportedTriple: Bool = false) throws -> [ExecutableInfo] {
+    public func parseArtifactArchives(for triple: Triple, fileSystem: FileSystem, observabilityScope: ObservabilityScope? = nil) throws -> [ExecutableInfo] {
         // The host triple might contain a version which we don't want to take into account here.
         let versionLessTriple = try triple.withoutVersion()
         // We return at most a single variant of each artifact.
@@ -70,8 +70,8 @@ extension BinaryTarget {
         return try executables.flatMap { entry in
             // FIXME: this filter needs to become more sophisticated
             let filtered = entry.value.variants.filter { $0.supportedTriples.contains(versionLessTriple) }
-            if filtered.isEmpty, onlyIfSupportedTriple {
-                throw PluginEvaluationError.noSupportedTripleForTarget(name: self.name)
+            if filtered.isEmpty {
+                observabilityScope?.emit(warning: "binary '\(self.name)' not on supported host/platform (\(versionLessTriple.tripleString))")
             }
             return try filtered.map{
                 ExecutableInfo(name: entry.key, executablePath: try AbsolutePath(validating: $0.path, relativeTo: self.artifactPath))
