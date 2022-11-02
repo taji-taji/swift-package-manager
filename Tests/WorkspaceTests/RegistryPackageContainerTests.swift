@@ -86,9 +86,9 @@ class RegistryPackageContainerTests: XCTestCase {
             return try Workspace._init(
                 fileSystem: fs,
                 location: .init(forRootPackage: packagePath, fileSystem: fs),
+                registryClient: registryClient,
                 customToolsVersion: toolsVersion,
-                customManifestLoader: MockManifestLoader(manifests: [:]),
-                customRegistryClient: registryClient
+                customManifestLoader: MockManifestLoader(manifests: [:])
             )
         }
 
@@ -151,9 +151,9 @@ class RegistryPackageContainerTests: XCTestCase {
             return try Workspace._init(
                 fileSystem: fs,
                 location: .init(forRootPackage: packagePath, fileSystem: fs),
+                registryClient: registryClient,
                 customToolsVersion: toolsVersion,
-                customManifestLoader: MockManifestLoader(manifests: [:]),
-                customRegistryClient: registryClient
+                customManifestLoader: MockManifestLoader(manifests: [:])
             )
         }
 
@@ -244,9 +244,9 @@ class RegistryPackageContainerTests: XCTestCase {
             return try Workspace._init(
                 fileSystem: fs,
                 location: .init(forRootPackage: packagePath, fileSystem: fs),
+                registryClient: registryClient,
                 customToolsVersion: toolsVersion,
-                customManifestLoader: MockManifestLoader(),
-                customRegistryClient: registryClient
+                customManifestLoader: MockManifestLoader()
             )
 
             struct MockManifestLoader: ManifestLoaderProtocol {
@@ -325,7 +325,7 @@ class RegistryPackageContainerTests: XCTestCase {
         packageVersion: Version,
         packagePath: AbsolutePath,
         fileSystem: FileSystem,
-        configuration: PackageRegistry.RegistryConfiguration? = .none,
+        configuration: RegistryConfiguration? = .none,
         releasesRequestHandler: HTTPClient.Handler? = .none,
         versionMetadataRequestHandler: HTTPClient.Handler? = .none,
         manifestRequestHandler: HTTPClient.Handler? = .none,
@@ -341,7 +341,7 @@ class RegistryPackageContainerTests: XCTestCase {
 
         var configuration = configuration
         if configuration == nil {
-            configuration = PackageRegistry.RegistryConfiguration()
+            configuration = RegistryConfiguration()
             configuration!.defaultRegistry = .init(url: URL(string: "http://localhost")!)
         }
 

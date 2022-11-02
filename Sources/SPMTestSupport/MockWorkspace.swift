@@ -30,7 +30,7 @@ public final class MockWorkspace {
     let customToolsVersion: ToolsVersion?
     let fingerprints: MockPackageFingerprintStorage
     let mirrors: DependencyMirrors
-    public var registryClient: RegistryClient
+    public var registryClient: RegistryClientInterface
     let registry: MockRegistry
     let customBinaryArtifactsManager: Workspace.CustomBinaryArtifactsManager
     public var checksumAlgorithm: MockHashAlgorithm
@@ -258,6 +258,7 @@ public final class MockWorkspace {
                 sharedSecurityDirectory: self.fileSystem.swiftPMSecurityDirectory,
                 sharedCacheDirectory: self.fileSystem.swiftPMCacheDirectory
             ),
+            registryClient: self.registryClient,
             configuration: .init(
                 skipDependenciesUpdates: self.skipDependenciesUpdates,
                 prefetchBasedOnResolvedFile: WorkspaceConfiguration.default.prefetchBasedOnResolvedFile,
@@ -274,7 +275,6 @@ public final class MockWorkspace {
             customManifestLoader: self.manifestLoader,
             customPackageContainerProvider: self.customPackageContainerProvider,
             customRepositoryProvider: self.repositoryProvider,
-            customRegistryClient: self.registryClient,
             customBinaryArtifactsManager: self.customBinaryArtifactsManager,
             customIdentityResolver: self.identityResolver,
             customChecksumAlgorithm: self.checksumAlgorithm,
