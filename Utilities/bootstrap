@@ -373,6 +373,8 @@ def test(args):
     for arg in args.filter:
         cmd.extend(["--filter", arg])
 
+    cmd.append("--very-verbose")
+
     # Test SwiftPM.
     call_swiftpm(args, cmd)
 
@@ -640,6 +642,8 @@ def build_swiftpm_with_swiftpm(args, integrated_swift_driver):
 
     swiftpm_args += ["-Xswiftc", "-Xfrontend", "-Xswiftc", "-disable-implicit-concurrency-module-import"]
     swiftpm_args += ["-Xswiftc", "-Xfrontend", "-Xswiftc", "-disable-implicit-string-processing-module-import"]
+
+    swiftpm_args.append("--very-verbose")
 
     # Build SwiftPM, including libSwiftPM, all the command line tools, and the current variant of PackageDescription.
     call_swiftpm(args, swiftpm_args)

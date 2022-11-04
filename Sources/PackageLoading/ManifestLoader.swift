@@ -18,7 +18,7 @@ import enum TSCUtility.Diagnostics
 
 public enum ManifestParseError: Swift.Error, Equatable {
     /// The manifest contains invalid format.
-    case invalidManifestFormat(String, diagnosticFile: AbsolutePath?)
+    case invalidManifestFormat(String, diagnosticFile: AbsolutePath?, compilerCommandLine: [String]?)
 
     /// The manifest was successfully loaded by swift interpreter but there were runtime issues.
     case runtimeManifestErrors([String])
@@ -28,8 +28,14 @@ public enum ManifestParseError: Swift.Error, Equatable {
 extension ManifestParseError: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .invalidManifestFormat(let error, _):
-            return "Invalid manifest\n\(error)"
+        case .invalidManifestFormat(let error, _, let compilerCommandLine):
+            let suffix: String
+            if let compilerCommandLine = compilerCommandLine {
+                suffix = " (compiled with: \(compilerCommandLine))"
+            } else {
+                suffix = ""
+            }
+            return "Invalid manifest\(suffix)\n\(error)"
         case .runtimeManifestErrors(let errors):
             return "Invalid manifest (evaluation failed)\n\(errors.joined(separator: "\n"))"
         }
@@ -279,7 +285,7 @@ public final class ManifestLoader: ManifestLoaderProtocol {
         // Throw now if we weren't able to parse the manifest.
         guard let manifestJSON = result.manifestJSON, !manifestJSON.isEmpty else {
             let errors = result.errorOutput ?? result.compilerOutput ?? "Missing or empty JSON output from manifest compilation for \(packageIdentity)"
-            throw ManifestParseError.invalidManifestFormat(errors, diagnosticFile: result.diagnosticFile)
+            throw ManifestParseError.invalidManifestFormat(errors, diagnosticFile: result.diagnosticFile, compilerCommandLine: result.compilerCommandLine)
         }
 
         // We should not have any fatal error at this point.
@@ -589,6 +595,8 @@ public final class ManifestLoader: ManifestLoaderProtocol {
                     let compiledManifestFile = tmpDir.appending(component: "\(packageIdentity)-manifest\(executableSuffix)")
                     cmd += ["-o", compiledManifestFile.pathString]
 
+                    evaluationResult.compilerCommandLine = cmd
+
                     // Compile the manifest.
                     TSCBasic.Process.popen(arguments: cmd, environment: self.toolchain.swiftCompilerEnvironment, queue: callbackQueue) { result in
                         dispatchPrecondition(condition: .onQueue(callbackQueue))
@@ -826,6 +834,9 @@ extension ManifestLoader {
 
         /// The manifest in JSON format.
         var manifestJSON: String?
+
+        /// The command line used to compile the manifest
+        var compilerCommandLine: [String]?
 
         /// Any non-compiler error that might have occurred during manifest loading.
         ///
