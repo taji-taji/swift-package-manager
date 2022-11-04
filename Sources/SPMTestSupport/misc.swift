@@ -216,6 +216,7 @@ private func swiftArgs(
     args += Xcc.flatMap { ["-Xcc", $0] }
     args += Xld.flatMap { ["-Xlinker", $0] }
     args += Xswiftc.flatMap { ["-Xswiftc", $0] }
+    args += ["--very-verbose"]
     return args
 }
 
