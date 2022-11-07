@@ -61,7 +61,7 @@ public func XCTAssertSwiftTest(
     line: UInt = #line
 ) {
     XCTAssertNoThrow(
-        try SwiftPMProduct.SwiftTest.execute([], packagePath: path, env: env),
+        try SwiftPMProduct.SwiftTest.execute(["--very-verbose"], packagePath: path, env: env),
         file: file,
         line: line
     )
