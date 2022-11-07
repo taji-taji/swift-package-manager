@@ -8,6 +8,26 @@
 
 add_library(Commands
   Options.swift
+  PackageTools/APIDiff.swift
+  PackageTools/ArchiveSource.swift
+  PackageTools/CompletionTool.swift
+  PackageTools/ComputeChecksum.swift
+  PackageTools/Config.swift
+  PackageTools/Describe.swift
+  PackageTools/DumpCommands.swift
+  PackageTools/EditCommands.swift
+  PackageTools/Format.swift
+  PackageTools/Init.swift
+  PackageTools/Learn.swift
+  PackageTools/PluginCommand.swift
+  PackageTools/ResetCommands.swift
+  PackageTools/Resolve.swift
+  PackageTools/ShowDependencies.swift
+  PackageTools/SwiftPackageCollectionsTool.swift
+  PackageTools/SwiftPackageRegistryTool.swift
+  PackageTools/SwiftPackageTool.swift
+  PackageTools/ToolsVersionCommand.swift
+  PackageTools/Update.swift
   Snippets/CardEvent.swift
   Snippets/Cards/SnippetCard.swift
   Snippets/Cards/SnippetGroupCard.swift
@@ -18,13 +38,12 @@ add_library(Commands
   SwiftBuildTool.swift
   SwiftPackageCollectionsTool.swift
   SwiftPackageRegistryTool.swift
-  SwiftPackageTool.swift
   SwiftRunTool.swift
   SwiftTestTool.swift
   SwiftTool.swift
   Utilities/APIDigester.swift
   Utilities/DependenciesSerializer.swift
-  Utilities/Describe.swift
+  Utilities/DescribedPackage.swift
   Utilities/DOTManifestSerializer.swift
   Utilities/GenerateLinuxMain.swift
   Utilities/MultiRootSupport.swift
