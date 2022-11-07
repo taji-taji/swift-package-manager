@@ -79,7 +79,7 @@ public struct SwiftPackageCollectionsTool: ParsableCommand {
         @OptionGroup
         var jsonOptions: JSONOptions
 
-        @OptionGroup(_hiddenFromHelp: true)
+        @OptionGroup(visibility: .hidden)
         var globalOptions: GlobalOptions
 
         func run(_ swiftTool: SwiftTool) throws {
@@ -100,7 +100,7 @@ public struct SwiftPackageCollectionsTool: ParsableCommand {
     struct Refresh: SwiftCommand {
         static let configuration = CommandConfiguration(abstract: "Refresh configured collections")
 
-        @OptionGroup(_hiddenFromHelp: true)
+        @OptionGroup(visibility: .hidden)
         var globalOptions: GlobalOptions
 
         func run(_ swiftTool: SwiftTool) throws {
@@ -126,7 +126,7 @@ public struct SwiftPackageCollectionsTool: ParsableCommand {
         @Flag(name: .long, help: "Skip signature check if the collection is signed")
         var skipSignatureCheck: Bool = false
 
-        @OptionGroup(_hiddenFromHelp: true)
+        @OptionGroup(visibility: .hidden)
         var globalOptions: GlobalOptions
 
         func run(_ swiftTool: SwiftTool) throws {
@@ -165,7 +165,7 @@ public struct SwiftPackageCollectionsTool: ParsableCommand {
         @Argument(help: "URL of the collection to remove")
         var collectionURL: String
 
-        @OptionGroup(_hiddenFromHelp: true)
+        @OptionGroup(visibility: .hidden)
         var globalOptions: GlobalOptions
 
         func run(_ swiftTool: SwiftTool) throws {
@@ -199,7 +199,7 @@ public struct SwiftPackageCollectionsTool: ParsableCommand {
         @Argument(help: "Search query")
         var searchQuery: String
 
-        @OptionGroup(_hiddenFromHelp: true)
+        @OptionGroup(visibility: .hidden)
         var globalOptions: GlobalOptions
 
         func run(_ swiftTool: SwiftTool) throws {
@@ -249,7 +249,7 @@ public struct SwiftPackageCollectionsTool: ParsableCommand {
         @Flag(name: .long, help: "Skip signature check if the collection is signed")
         var skipSignatureCheck: Bool = false
 
-        @OptionGroup(_hiddenFromHelp: true)
+        @OptionGroup(visibility: .hidden)
         var globalOptions: GlobalOptions
 
         private func printVersion(_ version: PackageCollectionsModel.Package.Version?) -> String? {

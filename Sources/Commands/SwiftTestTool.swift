@@ -457,7 +457,7 @@ extension SwiftTestTool {
             abstract: "Lists test methods in specifier format"
         )
 
-        @OptionGroup(_hiddenFromHelp: true)
+        @OptionGroup(visibility: .hidden)
         var globalOptions: GlobalOptions
 
         @OptionGroup()
@@ -521,7 +521,7 @@ extension SwiftTestTool {
             abstract: "Generate LinuxMain.swift (deprecated)"
         )
 
-        @OptionGroup(_hiddenFromHelp: true)
+        @OptionGroup(visibility: .hidden)
         var globalOptions: GlobalOptions
 
         // for deprecated passthrough from SwiftTestTool (parse will fail otherwise)

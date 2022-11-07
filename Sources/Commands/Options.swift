@@ -266,13 +266,13 @@ struct BuildOptions: ParsableArguments {
             parsing: .unconditionalSingleValue,
             help: ArgumentHelp(
                 "Pass flag through to the Xcode build system invocations",
-                shouldDisplay: false))
+                visibility: .hidden))
     var xcbuildFlags: [String] = []
 
     @Option(name: .customLong("Xmanifest", withSingleDash: true),
             parsing: .unconditionalSingleValue,
             help: ArgumentHelp("Pass flag to the manifest build invocation",
-                               shouldDisplay: false))
+                               visibility: .hidden))
     var manifestFlags: [String] = []
 
     var buildFlags: BuildFlags {
@@ -301,7 +301,7 @@ struct BuildOptions: ParsableArguments {
       name: .customLong("arch"),
       help: ArgumentHelp(
         "Build the package for the these architectures",
-        shouldDisplay: false))
+        visibility: .hidden))
     public var archs: [String] = []
 
     /// Which compile-time sanitizers should be enabled.
